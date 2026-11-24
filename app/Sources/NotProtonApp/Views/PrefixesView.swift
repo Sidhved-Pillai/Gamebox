@@ -8,6 +8,7 @@ struct PrefixesView: View {
     @Environment(\.colorSchemeContrast) private var contrast
     @State private var sortOrder = [KeyPathComparator(\PrefixRow.lastUsed, order: .reverse)]
     @State private var winetricksPrefix: WinePrefix?
+    @State private var gtaDiagnosticsPrefix: WinePrefix?
 
     var body: some View {
         Group {
@@ -107,6 +108,9 @@ struct PrefixesView: View {
         }
         .sheet(item: $winetricksPrefix) { prefix in
             WinetricksView(prefix: prefix)
+        }
+        .sheet(item: $gtaDiagnosticsPrefix) { prefix in
+            GTAEnhancedDiagnosticsView(prefix: prefix)
         }
     }
 
@@ -362,6 +366,10 @@ struct PrefixesView: View {
 
     @ViewBuilder
     private func toolButtons(for prefix: WinePrefix?) -> some View {
+        if prefix?.appID == "3240220" {
+            Button("Check GTA V Enhanced launch") { gtaDiagnosticsPrefix = prefix }
+            Divider()
+        }
         Button("Run Program…") {
             if let prefix { model.chooseExecutable(for: prefix) }
         }

@@ -10,6 +10,7 @@ Gamebox is a source fork of [NotProton](https://github.com/NotProtonNot/NotProto
 - Builds a per-game CrossOver prefix and lets Steam launch games through the selected compatibility tool.
 - Supports CrossOver 26.3 and several pinned Preview versions, subject to exact binary validation.
 - Includes prefix management, backups, Wine tools, and plugins.
+- Adds a GTA V Enhanced launch check for known DirectX 12 and Rockstar authentication signatures in the per-game logs. It gives targeted next steps and does not alter saves or game files.
 
 Steam Cloud is handled by Steam when a game supports it. Rockstar authentication and cloud saves depend on Rockstar Games Launcher functioning for that game. Neither is independently implemented by Gamebox. GTA V Enhanced may require a newer CrossOver Preview for DirectX 12 compatibility; the installed 26.3 runner alone is not a guaranteed fix.
 
