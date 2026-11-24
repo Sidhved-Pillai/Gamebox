@@ -53,15 +53,20 @@ enum EngineError: LocalizedError {
         process.executableURL = runner
         process.arguments = arguments
         process.environment = ProcessInfo.processInfo.environment.merging(["WINEPREFIX": bottle.path]) { _, new in new }
-        let pipe = Pipe()
-        process.standardOutput = pipe
-        process.standardError = pipe
+        let logURL = FileManager.default.temporaryDirectory.appendingPathComponent("gamebox-\(UUID().uuidString).log")
+        FileManager.default.createFile(atPath: logURL.path, contents: nil)
+        let log = try FileHandle(forWritingTo: logURL)
+        process.standardOutput = log
+        process.standardError = log
         process.terminationHandler = { process in
-            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+            try? log.close()
+            let data = (try? Data(contentsOf: logURL)) ?? Data()
+            try? FileManager.default.removeItem(at: logURL)
             let output = String(data: data, encoding: .utf8) ?? ""
             DispatchQueue.main.async { completion(process.terminationStatus == 0 ? .success(output) : .failure(EngineError.failed(output.isEmpty ? "Wine exited with code \(process.terminationStatus)." : output))) }
         }
-        try process.run()
+        do { try process.run() }
+        catch { try? log.close(); try? FileManager.default.removeItem(at: logURL); throw error }
     }
     func delete(_ bottle: Bottle) throws {
         guard bottle.url.deletingLastPathComponent() == root,

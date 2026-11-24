@@ -12,7 +12,7 @@ cat > dist/Gamebox.app/Contents/Info.plist <<'EOF'
 <key>CFBundleIdentifier</key><string>dev.gamebox.bottles</string>
 <key>CFBundleName</key><string>Gamebox</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.1.0</string>
+<key>CFBundleShortVersionString</key><string>0.1.1</string>
 <key>CFBundleVersion</key><string>1</string>
 <key>GameboxRepository</key><string>Sidhved-Pillai/Gamebox</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
